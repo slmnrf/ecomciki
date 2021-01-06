@@ -169,7 +169,7 @@ footer a:hover {
   color: #4c4c4c;
 }
 .navbar-default .navbar-nav > .dropdown > a .caret {
-  border-top-color: #999999;
+  border-top-color: #ffffff;
 }
 .navbar-default .navbar-nav > .dropdown > a:hover .caret {
   border-top-color: #ffffff;
