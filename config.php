@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
-$title           = "Enditha Frozen Food | ";
-$nama_perusahaan = "Enditha Frozen Food";
+$title           = "CIKI 500 | ";
+$nama_perusahaan = "CIKI 500";
 ?>
 <script type="text/javascript">
     var txt="<?php echo $title; ?>";
