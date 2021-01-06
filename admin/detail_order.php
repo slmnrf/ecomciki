@@ -253,7 +253,7 @@ if ($row_data_faktur['pembayaran'] != "COD") {
 	    <script type="text/javascript">
 	        $('#datepicker').datepicker({
 	            dateFormat: "dd-mm-yy",
-	            yearRange: '2000:2020',
+	            yearRange: '2000:2030',
 	            changeMonth: true,
 	            changeYear: true,
 	            showAnim: "drop"

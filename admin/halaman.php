@@ -27,7 +27,6 @@ $trow = $sql->rowCount();
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <!-- <link rel="icon" href="../images/favicon.ico"> -->
 
         <title></title>
         <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -71,7 +70,7 @@ $trow = $sql->rowCount();
 				                            </tr>
 				                        </thead>
 				                        <tbody>
-				                        <?php do { $kd_halaman=$row['kd_halaman']; ?>
+				                        <?php do { $kd_halaman = $row['kd_halaman']; ?>
 				                            <tr>
 				                                <td width="15%"><?php echo $row['nama_halaman']; ?></td>
 				                                <td width="auto"><?php echo potongText("isi", strip_tags($row['isi_halaman'])); ?></td>
