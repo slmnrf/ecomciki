@@ -7,6 +7,13 @@ include 'query_header.php';
 
 $faktur = $_GET['faktur'];
 $pelanggan = $_SESSION['pelanggan'];
+$komplain = $_GET['komplain'];
+$error = "";
+
+if($_GET['komplain'] == "y") {
+  $con->exec("UPDATE faktur SET komplain='$komplain' WHERE kd_faktur='$faktur'");
+} 
+
 $sql_penjualan = $con->query("SELECT a.*, b.* FROM penjualan as a, produk as b WHERE a.kd_faktur='$faktur' AND b.kd_produk=a.kd_produk ");
 $row_penjualan = $sql_penjualan->fetch(PDO::FETCH_LAZY);
 $trow_penjualan = $sql_penjualan->rowCount();
@@ -21,6 +28,27 @@ $row_tampil_pengiriman = $sql_tampil_pengiriman->fetch(PDO::FETCH_LAZY);
 $jml_barang =0;
 $jml_berat  =0;
 $sub_total  =0;
+
+if((isset($_GET["btnkomplain"])) && ($_GETT["btnkomplain"] == "y")) {
+
+  $kdfaktur = $_GET['faktur'];
+  $tanggal = date("Y-m-d h:i:s");
+  $alasan = $_GET['alasanKomplain'];
+  $status = "proses";
+
+  $con->exec("INSERT INTO komplain (kd_faktur,tgl,alasan,stts) 
+                    VALUES (
+                    '".$kdfaktur."',
+                    '".$tanggal."',
+                    '".$alasan."',
+                    '".$status."'
+                    )");
+
+  $error = '<div class="alert alert-success" role="alert">Anda Berhasil Mengajukan Komplain. Kami Segera Proses.</div>';
+  alert("disini");
+}else{
+  $error = '<div class="alert alert-danger" role="alert">Anda Gagal Mengajukan Komplain. Kami Segera Proses.</div>';
+}
 
 ?>
 <!DOCTYPE html>
@@ -145,6 +173,39 @@ $sub_total  =0;
           </tr>
         </tbody>
       </table>
+
+      <?php if ($_GET['komplain'] == "y") { ?>
+      <!-- Komplain Barang -->
+      <div class="col-md-12"> <?php echo $error; ?> 
+      <table class="table table-bordered table-hover" style="font-size: 12px">
+          <thead>
+              <tr> 
+              <th colspan="5"> <h4>Komplain Barang</h4></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr> 
+                <td>Pilih Alasan Pengajuan Komplain </br></br>
+              <form method="GET" action="">
+                  <select name="alasanKomplain" id="alasanKomplain" class="form-control">
+                    <option selected disabled>Pilih</option>
+                    <option value="barang cacat">Barang Cacat</option>
+                    <option value="kadaluarsa">Kadaluarsa</option>
+                    <option value="barang salah">Barang Salah</option>
+                    <option value="lainnya">Lainnya</option>
+                  </select>
+                  <input type="hidden" class="form-control" value="<?php echo $_GET['faktur']?>"></input>
+                  <input type="hidden" class="form-control" value="<?php echo $_SESSION['pelanggan']?>"></input>
+                  </br>
+                  <button name="btnkomplain" value="y" type="submit" class="btn btn-danger btn-block">Ajukan</button>
+              </form>
+                </td>
+              </tr>
+          </tbody>
+      </table>
+      <!-- Tutup Komplain Barang -->
+      <?php } ?>
+
       <h3>Status Transaksi</h3>
       <hr>
       <table width="100%"  style="font-size: 14px">

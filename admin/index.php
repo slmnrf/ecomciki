@@ -66,6 +66,15 @@ include 'total.php';
 				        </div>
 				        <div class="col-md-3">
 				            <div class="sm-st clearfix">
+				                <span class="sm-st-icon st-red"><i class="fa fa-warning"></i></span>
+				                <div class="sm-st-info">
+				                    <span><?php echo $trow_torder ?></span>
+				                    Total Komplain
+				                </div>
+				            </div>
+				        </div>
+				        <div class="col-md-3">
+				            <div class="sm-st clearfix">
 				                <span class="sm-st-icon st-violet"><i class="fa fa-envelope-o"></i></span>
 				                <div class="sm-st-info">
 				                    <span><?php echo $trow_tinbox ?></span>
@@ -153,6 +162,48 @@ include 'total.php';
 				            </div>
 						</div>
 				      <?php endif ?>
+
+					  <!-- Menu Komplain  -->
+					  <div class="<?php echo $col_transaksi; ?>">
+							<div class="panel">
+				                <header class="panel-heading">
+				                    Daftar Komplain
+				                </header>
+				                <div class="panel-body table-responsive">
+								<!-- Tabel -->
+			                    <table class="table table-bordered" style="font-size: 12px">
+			                        <thead>
+			                            <tr>
+			                                <th>KD. Komplain</th>
+			                                <th>KD. Faktur</th>
+			                                <th>Tanggal</th>
+			                                <th>Status</th>
+			                                <th>Aksi</th>
+			                            </tr>
+			                        </thead>
+			                        <tbody>
+			                        <?php do{
+
+			                        	$kd_faktur=$row['kd_faktur'];
+			                        ?>
+			                            <tr>
+			                                <td width="10%">
+			                                	<a href="detail_order?kd_faktur=<?php echo $kd_faktur; ?>&&pelanggan=<?php echo $row['userid'] ?>">
+			                                	<?php echo $row['kd_faktur']; ?>
+			                                	</a>
+			                                </td>
+			                                <td width="15%"><?php echo $row['nama_plg']; ?></td>
+			                                <td width="15%"><?php echo uang($row['total_biaya_barang']); ?></td>
+			                                <td width="10%"><?php echo tampilKurir($row['kurir']); ?></td>
+			                                <td width="15%"><?php echo longDateTs($row['tgl']); ?></td>
+			                            </tr>
+			                        <?php } while ($row = $sql->fetch(PDO::FETCH_LAZY)); ?>
+			                        </tbody>
+			                    </table>
+				                </div>
+				            </div>
+						</div>
+					  <!-- Tutup Menu Komplain -->
 				  </div>
 				   
 				</section><!-- /.content -->

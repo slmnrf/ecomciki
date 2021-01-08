@@ -111,16 +111,19 @@ $trow = $sql->rowCount();
 												if ($row['tgl_terima'] == NULL) { ?>
               <form method="POST" enctype="multipart/form-data">
                 <button type="submit" class="btn btn-success">Terima Barang</button>
+                <p></p>
+                <!-- <button name="btnKomplain" id="btnKomplain" class="btn btn-danger">Komplain Barang</button> -->
+                <a href="detail_transaksi?faktur=<?php echo $faktur; ?>&&komplain=<?php echo "y";?>" type="button" class="btn btn-danger">Komplain Barang</a>
                 <input type="hidden" name="fterima" value="y" />
                 <input type="hidden" name="kd_faktur" value="<?php echo $row['kd_faktur'];?>" />
               </form>
               <?php
-                                            } else {
-                                                echo "<br><b>Tgl. Terima Barang : ".longDatepukul($row['tgl_terima'])."<b>";
-                                            }
-                                            }
-                                        }
-                                        ?>
+                  } else {
+                      echo "<br><b>Tgl. Terima Barang : ".longDatepukul($row['tgl_terima'])."<b>";
+                  }
+                  }
+              }
+              ?>
               <?php else: ?>
               <?php if ($row['pembayaran'] == 'COD'): ?>
               <form method="POST" enctype="multipart/form-data">
