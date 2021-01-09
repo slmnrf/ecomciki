@@ -91,7 +91,7 @@ if ((isset($_POST["buat_pesan"])) && ($_POST["buat_pesan"] == "y")) {
 	tampilPesan("Berhasil Dikirim!","Data yang dipilih berhasil dikirim!","success","inbox");
 }
 
-$sql = $con->query("SELECT * FROM inbox WHERE pengirim='$userid' ");
+$sql = $con->query("SELECT * FROM inbox WHERE pengirim='$userid' OR tujuan='$userid' ");
 $row = $sql->fetch(PDO::FETCH_LAZY);
 $trow = $sql->rowCount();
 ?>

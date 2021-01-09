@@ -6,6 +6,39 @@ include '../hapus_otomatis.php';
 $page = "index";
 
 include 'total.php';
+
+if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
+	$stts = "proses";
+	$komplainfaktur = $_POST['kfaktur'];
+	$komplainkomplain = $_POST['kkomplain'];
+	$alasan = $_POST['alasan'];
+	$tanggal = date("Y-m-d h:i:s");
+	$emailadmin = $_POST['email'];
+	$emailplg = $_POST['emailplg'];
+	$kd_inbox = $_POST['id_max'];
+
+	$judul = "KOMPLAIN ".$komplainfaktur;
+	$pesan = "Pesanan dengan no faktur ".$komplainfaktur." mengajukan komplain atas alasan ".$alasan."
+				untuk mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.";
+
+	// update status pada tabel komplain
+	$con->exec("UPDATE komplain SET stts='$stts' WHERE kd_faktur='$komplainfaktur'");
+
+	// insert pada inbox untuk mengajukan komplain ke user dari Admin
+	$con->exec("INSERT INTO inbox (kd_inbox, pengirim, judul, tujuan) VALUES (
+				'".$kd_inbox."',
+				'".$emailadmin."',
+				'".$judul."',
+				'".$emailplg."'
+				)");
+
+	$con->exec("INSERT INTO inbox_detail (kd_inbox, userid, pesan) VALUES (
+				'".$kd_inbox."',
+				'".$emailadmin."',
+				'".$pesan."'
+				)");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,9 +119,16 @@ include 'total.php';
 
 				    <!-- Main row -->
 				    <?php
+						// transaksi
 				    	$sql = $con->query("SELECT a.*, b.* FROM faktur as a, pelanggan as b WHERE b.email_plg=a.userid AND a.total_biaya_barang!='' ORDER BY a.tgl DESC LIMIT 5");
 						$row = $sql->fetch(PDO::FETCH_LAZY);
 						$trow = $sql->rowCount();
+
+						// komplain
+						// $sqlkom = $con->query("SELECT * FROM komplain ORDER BY tgl DESC LIMIT 5");
+						$sqlkom = $con->query("SELECT a.*, b.*, c.* FROM faktur as a, pelanggan as b, komplain as c WHERE c.kd_faktur=a.kd_faktur AND b.email_plg=a.userid  ORDER BY c.tgl DESC LIMIT 5");
+						$rowkom = $sqlkom->fetch(PDO::FETCH_LAZY);
+						$trowkom = $sqlkom->rowCount();
 
 						// mencari produk yang habis
 				    	$sql_cari_produk_habis = $con->query("SELECT * FROM produk WHERE stok=0");
@@ -99,7 +139,13 @@ include 'total.php';
 				    		$col_transaksi = "col-lg-9";
 				    	} else {
 				    		$col_transaksi = "col-lg-12";
-				    	}
+						}
+						
+						$sql_max_inbox  = $con->query("SELECT *, MAX(kd_inbox) AS max_inbox FROM inbox");
+						$row_max_inbox  = $sql_max_inbox->fetch(PDO::FETCH_LAZY);
+						$trow_max_inbox = $sql_max_inbox->rowCount();
+						$max            = $row_max_inbox['max_inbox'];
+						$id_max         = $max+1;
 				    	
 				    ?>
 				    <div class="row">
@@ -167,7 +213,7 @@ include 'total.php';
 					  <div class="<?php echo $col_transaksi; ?>">
 							<div class="panel">
 				                <header class="panel-heading">
-				                    Daftar Komplain
+				                    5 Daftar Komplain Terakhir
 				                </header>
 				                <div class="panel-body table-responsive">
 								<!-- Tabel -->
@@ -177,27 +223,40 @@ include 'total.php';
 			                                <th>KD. Komplain</th>
 			                                <th>KD. Faktur</th>
 			                                <th>Tanggal</th>
+			                                <th>Alasan</th>
 			                                <th>Status</th>
 			                                <th>Aksi</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
 			                        <?php do{
-
-			                        	$kd_faktur=$row['kd_faktur'];
+			                        	$kd_komplain=$rowkom['kd_komplain'];
 			                        ?>
+										<form method="POST">
 			                            <tr>
+			                                <td width="10%"><?php echo $rowkom['kd_komplain']; ?></td>
 			                                <td width="10%">
 			                                	<a href="detail_order?kd_faktur=<?php echo $kd_faktur; ?>&&pelanggan=<?php echo $row['userid'] ?>">
-			                                	<?php echo $row['kd_faktur']; ?>
+			                                	<?php echo $rowkom['kd_faktur']; ?>
 			                                	</a>
-			                                </td>
-			                                <td width="15%"><?php echo $row['nama_plg']; ?></td>
-			                                <td width="15%"><?php echo uang($row['total_biaya_barang']); ?></td>
-			                                <td width="10%"><?php echo tampilKurir($row['kurir']); ?></td>
-			                                <td width="15%"><?php echo longDateTs($row['tgl']); ?></td>
+			                                </td>			                                
+			                                <td width="15%"><?php echo longDateTs($rowkom['tgl']); ?></td>
+			                                <td width="15%"><?php echo $rowkom['alasan']; ?></td>
+			                                <td width="15%"><?php echo $rowkom['stts']; ?></td>
+											<?php if ($rowkom['stts'] == "pengajuan") { ?>
+												<td width="15%"><button type="submit" name="btnproses" value="y" class="btn btn-danger">Proses</button></td>
+											<?php }elseif ($rowkom['stts'] == "proses") { ?>
+												<td width="15%"><button type="submit" name="btnselesai" value="y" class="btn btn-success">Selesai</button></td>
+											<?php }?>
+											<td><input type="hidden" name="kfaktur" value="<?php echo $rowkom['kd_faktur'];?>"></input>
+											<input type="hidden" name="kkomplain" value="<?php echo $rowkom['kd_komplain'];?>"></input>
+											<input type="hidden" name="alasan" value="<?php echo $rowkom['alasan'];?>"></input>
+											<input type="hidden" name="email" value="<?php echo $email_akun;?>"></input>
+											<input type="hidden" name="emailplg" value="<?php echo $rowkom['userid'];?>"></input>
+											<input type="hidden" name="id_max" value="<?php echo $id_max;?>"></input></td>
 			                            </tr>
-			                        <?php } while ($row = $sql->fetch(PDO::FETCH_LAZY)); ?>
+										</form>
+			                        <?php } while ($rowkom = $sqlkom->fetch(PDO::FETCH_LAZY)); ?>
 			                        </tbody>
 			                    </table>
 				                </div>
@@ -210,7 +269,6 @@ include 'total.php';
 
             </aside><!-- /.right-side -->
 		</div><!-- ./wrapper -->
-
         <!-- JavaScript
         ================================================== -->
         <script src="../assets/js/jquery.min.js"></script>

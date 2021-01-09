@@ -53,6 +53,11 @@
                 <a href="order">
                     <i class="fa fa-shopping-basket fa-lg"></i> <span>order</span>
                 </a>
+            </li>
+            <li <?php menuAktif("komplain", $page); ?>>
+                <a href="komplain">
+                    <i class="fa fa-shopping-basket fa-lg"></i> <span>komplain</span>
+                </a>
             </li><!-- 
             <li <?php //menuAktif("laporan", $page); ?>>
                 <a href="awal_laporan">

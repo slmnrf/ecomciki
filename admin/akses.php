@@ -14,4 +14,5 @@ $sql_akun = $con->query("SELECT * FROM admin WHERE email = '$userid' ");
 $row_akun = $sql_akun->fetch(PDO::FETCH_LAZY);
 
 $nama_akun = $row_akun['nama_admin'];
+$email_akun = $row_akun['email'];
 ?>
