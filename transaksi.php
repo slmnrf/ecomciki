@@ -27,6 +27,12 @@ $id = $_SESSION['pelanggan'];
 $sql = $con->query("SELECT * FROM faktur WHERE userid='$id' AND konfirm!='Belum' ORDER BY tgl DESC");
 $row = $sql->fetch(PDO::FETCH_LAZY);
 $trow = $sql->rowCount();
+
+$sqlkom = $con->query("SELECT a.*, b.userid FROM komplain AS a, faktur as b WHERE a.kd_faktur=b.kd_faktur AND b.userid='$id' AND a.stts!='selesai'");
+$rowkom = $sqlkom->fetch(PDO::FETCH_LAZY);
+$trowkom = $sqlkom->rowCount();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,9 +107,11 @@ $trow = $sql->rowCount();
                                             if ($row['tgl_kirim'] == NULL) {
                                                 echo "Barang Sedang Kami Proses";
                                             } else {
-                                                if ($row['tgl_terima'] == NULL) {
+                                                if ($row['komplain'] == NULL AND $row['tgl_terima'] == NULL) {
                                                 echo "Barang dalam Pengiriman <br>";
-                                            } else {
+                                                } else if($row['komplain'] == 'y' AND $row['tgl_terima'] == NULL){ 
+                                                  echo "Barang masih dalam proses komplain <br>";
+                                                }else{
                                                 echo "Barang sudah diterima <br>";
 											}
                                                 echo "<b>No. Resi : ".$row['resi']."<b><br>";
@@ -112,8 +120,11 @@ $trow = $sql->rowCount();
               <form method="POST" enctype="multipart/form-data">
                 <button type="submit" class="btn btn-success">Terima Barang</button>
                 <p></p>
-                <!-- <button name="btnKomplain" id="btnKomplain" class="btn btn-danger">Komplain Barang</button> -->
-                <a href="detail_transaksi?faktur=<?php echo $faktur; ?>&&komplain=<?php echo "y";?>" type="button" class="btn btn-danger">Komplain Barang</a>
+                <?php if(!empty($trowkom)){ ?>
+                  <a href="detail_transaksi?faktur=<?php echo $faktur; ?>&&komplain=<?php echo "y";?>" class="btn btn-danger" role="button">Detail Komplain</a>
+                  <?php }else{ ?>
+                    <a href="detail_transaksi?faktur=<?php echo $faktur; ?>&&komplain=<?php echo "y";?>" type="button" class="btn btn-danger">Komplain Barang</a>
+                <?php } ?>
                 <input type="hidden" name="fterima" value="y" />
                 <input type="hidden" name="kd_faktur" value="<?php echo $row['kd_faktur'];?>" />
               </form>

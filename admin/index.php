@@ -18,7 +18,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 	$kd_inbox = $_POST['id_max'];
 
 	$judul = "KOMPLAIN ".$komplainfaktur;
-	$pesan = "Pesanan dengan no faktur ".$komplainfaktur." mengajukan komplain atas alasan ".$alasan."
+	$pesan = "Pesanan dengan no faktur ".'<a href=detail_transaksi?faktur='.$komplainfaktur.'&&komplain='.'y'.'>'.$komplainfaktur.'</a>'." mengajukan komplain atas alasan ".$alasan."
 				untuk mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.";
 
 	// update status pada tabel komplain

@@ -21,15 +21,25 @@ if($_GET['komplain'] == "y") {
   // jika data ada
   if (!empty($trow_cari)) {
     $sql = $con->query("SELECT * FROM komplain WHERE kd_faktur='$faktur' AND stts='pengajuan' ");
-    $row = $sql_cari->fetch(PDO::FETCH_LAZY);
-    $trow = $sql_cari->rowCount();
+    $row = $sql->fetch(PDO::FETCH_LAZY);
+    $trow = $sql->rowCount();
     if (!empty($trow)) {
       ?>
         <style type="text/css">#fkomplain{display:none;}</style>
       <?php
       $pesan = "Komplain sedang kami proses.";
     }else{
-      // dikasih chat 
+      $sqlkomplain = $con->query("SELECT * FROM komplain WHERE kd_faktur='$faktur'");
+      $rowkomplain = $sqlkomplain->fetch(PDO::FETCH_LAZY);
+      ?>
+        <style type="text/css">#fkomplain{display:none;}</style>
+      <?php
+      $pesan = $rowkomplain['kd_komplain'];
+      $pesan .= "<td width='25%' class='text-center'>".$rowkomplain['kd_faktur']."</td>";
+      $pesan .= "<td width='25%' class='text-center'>".$rowkomplain['tgl']."</td>";
+      $pesan .= "<td width='20%' class='text-center'>".$rowkomplain['alasan']."</td>";
+      $pesan .= "<td width='15%' class='text-center'>".$rowkomplain['stts']."</td>";
+      $pesan .= "<tr><td colspan='5'><a href='inbox' type='button' class='btn btn-info'><i class='fa fa-envelope fa-lg' aria-hidden='true'></i> Lihat Inbox</a></td></tr>";
     }
   }else{
     $pesan = "Pilih Alasan Pengajuan Komplain";
@@ -50,6 +60,9 @@ if ((isset($_POST["btnkomplain"])) && ($_POST["btnkomplain"] == "y")) {
                       )");
   
     $error = '<div class="alert alert-success" role="alert">Anda Berhasil Mengajukan Komplain. Kami Segera Proses.</div>';
+    ?>
+      <style type="text/css">#fkomplain{display:none;}</style>
+    <?php
 }
 
 $sql_penjualan = $con->query("SELECT a.*, b.* FROM penjualan as a, produk as b WHERE a.kd_faktur='$faktur' AND b.kd_produk=a.kd_produk ");
@@ -202,7 +215,8 @@ $sub_total  =0;
           </thead>
           <tbody>
               <tr> 
-                <td><?php echo $pesan;?></br></br>
+                <td name="pesan"><?php echo $pesan;?></br></br>
+                <?php echo $dkomplain;?>
                 <div class="form-group" name="fkomplain" id="fkomplain">
                   <form method="POST">
                       <select name="alasanKomplain" id="alasanKomplain" class="form-control" require>

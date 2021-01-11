@@ -103,7 +103,7 @@
                 ============================= -->
                 <li style="margin-right: 20px">
                     <?php
-                        $sql_inboxHeader = $con->query("SELECT a.*, b.* FROM inbox_detail as a, inbox as b WHERE a.kd_inbox=b.kd_inbox AND b.pengirim='$id' AND a.status='N' AND  a.userid!='$id' ORDER BY a.tgl ASC");
+                        $sql_inboxHeader = $con->query("SELECT a.*, b.* FROM inbox_detail as a, inbox as b WHERE a.kd_inbox=b.kd_inbox AND a.status='N' AND  a.userid!='$id' ORDER BY a.tgl ASC");
                         $row_inboxHeader = $sql_inboxHeader->fetch(PDO::FETCH_LAZY);
                         $trow_inboxHeader = $sql_inboxHeader->rowCount();
                     ?>
