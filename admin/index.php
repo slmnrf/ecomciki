@@ -101,7 +101,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 				            <div class="sm-st clearfix">
 				                <span class="sm-st-icon st-red"><i class="fa fa-warning"></i></span>
 				                <div class="sm-st-info">
-				                    <span><?php echo $trow_torder ?></span>
+				                    <span><?php echo $trow_tkomplain ?></span>
 				                    Total Komplain
 				                </div>
 				            </div>
@@ -248,7 +248,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 											<?php }elseif ($rowkom['stts'] == "proses") { ?>
 												<td width="15%"><button type="submit" name="btnselesai" value="y" class="btn btn-success">Selesai</button></td>
 											<?php }?>
-											<td><input type="hidden" name="kfaktur" value="<?php echo $rowkom['kd_faktur'];?>"></input>
+											<td style="display:none;"><input type="hidden" name="kfaktur" value="<?php echo $rowkom['kd_faktur'];?>"></input>
 											<input type="hidden" name="kkomplain" value="<?php echo $rowkom['kd_komplain'];?>"></input>
 											<input type="hidden" name="alasan" value="<?php echo $rowkom['alasan'];?>"></input>
 											<input type="hidden" name="email" value="<?php echo $email_akun;?>"></input>

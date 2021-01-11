@@ -4,11 +4,20 @@ include '../config.php';
 include '../assets/lib/function.php';
 $page = "komplain";
 
+if ((isset($_POST["fhapus"])) && ($_POST["fhapus"] == "y")) {
 
-$sql = $con->query("SELECT a.*, b.*, c.* FROM faktur as a, pelanggan as b, komplain as c WHERE c.kd_faktur=a.kd_faktur AND b.email_plg=a.userid  ORDER BY c.tgl DESC LIMIT 5");
-$row = $sqlkom->fetch(PDO::FETCH_LAZY);
-$trow = $sqlkom->rowCount();
+    $kd_kategori  = $_POST['kd_kategori'];
 
+    $con->exec("DELETE FROM kategori WHERE kd_kategori = '$kd_kategori'");
+
+    // pesan berhasil
+    tampilPesan("Berhasil Dihapus!","Data yang dipilih berhasil dihapus!","success","kategori");
+}
+
+
+	$sql = $con->query("SELECT * FROM komplain");
+	$row = $sql->fetch(PDO::FETCH_LAZY);
+	$trow = $sql->rowCount();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,10 +36,6 @@ $trow = $sqlkom->rowCount();
         <link rel="stylesheet" href="../assets/fontawesome/css/font-awesome.min.css">
 	    <link rel="stylesheet" href="../assets/css/datatables/dataTables.bootstrap.min.css">
 	    <link rel="stylesheet" href="../assets/css/sweetalert.css">
-	    <link rel="stylesheet" href="../assets/css/datepicker/jquery-ui.css">
-	    <style>
-		    .ui-datepicker{ z-index:1151 !important; }
-		</style>
     </head>
     <body class="skin-blue">
     	<!-- memanggil file header -->
@@ -49,19 +54,17 @@ $trow = $sqlkom->rowCount();
 				        <div class="col-lg-12">
 							<div class="panel">
 				                <header class="panel-heading">
-				                    Data Order
+				                    Komplain
 				                </header>
 				                <div class="panel-body table-responsive">
 				                	<!-- Tombol tambah -->
-				                	<a data-toggle="modal" href='#modal-id' class="btn btn-success btn-sm"><span class="fa fa-print"></span> Cetak Laporan Penjualan</a>
-				                	&nbsp;
-				                	
+				                	<!-- <a href="kategori_tambah" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah</a> -->
 				                	<br><br>
 
 				                	<!-- Tabel -->
-				                    <table id="tabel" class="table table-bordered table-striped" cellspacing="0" width="100%" style="font-size: 12px">
+				                    <table id="tabel" class="table table-bordered table-striped" cellspacing="0" width="100%">
 				                        <thead>
-				                            <tr>
+											<tr>
 				                                <th>Kd. Komplain</th>
 				                                <th>Kd. Faktur</th>
 				                                <th>Tanggal</th>
@@ -72,7 +75,7 @@ $trow = $sqlkom->rowCount();
 				                        </thead>
 				                        <tbody>
 				                        <?php do{
-				                        	$kd_komplain=$row['kd_komplain'];
+				                        	// $kd_komplain=$row['kd_komplain'];
 				                        ?>
 				                            <tr style="<?php echo $tebal; ?>">
 				                                <td width="10%"><?php echo $row['kd_komplain']; ?></td>
@@ -80,10 +83,10 @@ $trow = $sqlkom->rowCount();
 				                                <td width="15%"><?php echo $row['tgl']; ?></td>
 				                                <td width="15%"><?php echo $row['alasan']; ?></td>
 				                                <td width="15%"><?php echo $row['stts']; ?></td>
-                                                <?php if ($rowkom['stts'] == "pengajuan") { ?>
+                                                <?php if ($row['stts'] == "pengajuan") { ?>
                                                     <td width="15%"><button type="submit" name="btnproses" value="y" class="btn btn-danger">Proses</button></td>
-                                                <?php }elseif ($rowkom['stts'] == "proses") { ?>
-                                                    <td width="10%"><a type="button" class="btn btn-info">Detail</a><a type="button" class="btn btn-success">Selesai</a></td>
+                                                <?php }elseif ($row['stts'] == "proses") { ?>
+                                                    <td width="10%"><a type="button" class="btn btn-info">Detail</a>&nbsp;<a type="button" class="btn btn-success">Selesai</a></td>
                                                 <?php }?>
 				                            </tr>
 				                        <?php } while ($row = $sql->fetch(PDO::FETCH_LAZY)); ?>
@@ -107,6 +110,37 @@ $trow = $sqlkom->rowCount();
         <!-- tabel -->
         <script src="../assets/js/datatables/jquery.dataTables.js"></script>
 	    <script src="../assets/js/datatables/dataTables.bootstrap.min.js"></script>
+	    <script>
+	        $(document).ready(function() {
+	            $('#tabel').dataTable({
+	                "columnDefs": [{
+	                    "targets": [1],
+	                    "searchable": false,
+	                    "orderable": false,
+	                    }]
+	            });
+	        });
+	    </script>
 
+        <!-- konfirmasi -->
+        <script src="../assets/js/sweetalert.js"></script>
+		<script>
+			$('.submit').on('click',function(e){
+			    e.preventDefault();
+			    var form = $(this).parents('form');
+			    swal({
+			        title: "Apakah anda yakin?",
+			        text: "Data yang terhapus tidak dapat dikembalikan!",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "Ya, hapus saja!",
+			        cancelButtonText: "Batal",
+			        closeOnConfirm: false
+			    }, function(isConfirm){
+			        if (isConfirm) form.submit();
+			    });
+			})
+		</script>
     </body>
 </html>

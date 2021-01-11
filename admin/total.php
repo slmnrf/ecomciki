@@ -15,4 +15,8 @@ $trow_tplg = $sql_tplg->rowCount();
 $sql_tbarang = $con->query("SELECT * FROM produk");
 $row_tbarang = $sql_tbarang->fetch(PDO::FETCH_LAZY);
 $trow_tbarang = $sql_tbarang->rowCount();
+
+$sql_tkomplain = $con->query("SELECT * FROM komplain");
+$row_tkomplain = $sql_tkomplain->fetch(PDO::FETCH_LAZY);
+$trow_tkomplain = $sql_tkomplain->rowCount();
 ?>

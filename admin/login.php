@@ -57,7 +57,7 @@ if ((isset($_POST["login"])) && ($_POST["login"] == "flogin"))
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
                             
-          <h1>Toko Enditha Frozen Food</h1>
+          <h1>CIKI500</h1>
                             <!-- <div class="description">
                             	<p>
 	                            	Lorem ipsum dolor sit amet.

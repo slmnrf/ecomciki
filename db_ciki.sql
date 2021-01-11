@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2021 at 10:37 AM
+-- Generation Time: Jan 11, 2021 at 04:29 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_endhitafd`
+-- Database: `db_ciki`
 --
 
 -- --------------------------------------------------------
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`nama_admin`, `alamat_admin`, `tlp_admin`, `email`) VALUES
-('Destyani Pramita Kusuma', 'Jl. Kyai Mojo No.22, Kasepuhan, Kec. Batang, Kabupaten Batang, Jawa Tengah 51214', '082325046290', 'enditha@gmail.com');
+('Ulinuha', 'Wiradesa, Kauman', '085601216483', 'ulin@ciki.com');
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,8 @@ INSERT INTO `faktur` (`kd_faktur`, `userid`, `total_biaya_barang`, `tgl`, `pemba
 (1610061093, 'ahmad@gmail.com', 900, '2021-01-07 23:11:33', 'Transfer', 'jne', '3-6', 12000, 'Sudah', '1610061093.jpg', '2021-01-08 06:16:00', '3123123', '2021-01-08 06:16:44', NULL),
 (1610061552, 'ahmad@gmail.com', 900, '2021-01-07 23:19:12', 'Transfer', 'jne', '3-6', 12000, 'Sudah', '1610061552.jpg', '2021-01-08 07:19:00', '12312312', NULL, 'y'),
 (1610074354, 'ahmad@gmail.com', 900, '2021-01-08 02:52:34', 'Transfer', 'jne', '3-6', 12000, 'Sudah', '1610074354.jpg', '2021-01-08 13:22:00', '3435234', NULL, 'y'),
-(1610092394, 'ahmad@gmail.com', 900, '2021-01-08 07:53:14', 'Transfer', 'jne', '3-6', 12000, 'Sudah', '1610092394.jpg', '2021-01-09 11:27:00', '131123412', NULL, 'y');
+(1610092394, 'ahmad@gmail.com', 900, '2021-01-08 07:53:14', 'Transfer', 'jne', '3-6', 12000, 'Sudah', '1610092394.jpg', '2021-01-09 11:27:00', '131123412', NULL, 'y'),
+(1610260235, 'ahmad@gmail.com', NULL, '2021-01-10 06:30:35', 'Transfer', 'jne', NULL, NULL, 'Belum', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -162,7 +163,8 @@ CREATE TABLE `inbox` (
 INSERT INTO `inbox` (`kd_inbox`, `pengirim`, `judul`, `tujuan`) VALUES
 (1, 'budi@gmail.com', 'Orderan', 'Admin'),
 (2, 'ahmad@gmail.com', 'judul', 'Admin'),
-(3, 'enditha@gmail.com', 'KOMPLAIN 1610061552', 'ahmad@gmail.com');
+(3, 'enditha@gmail.com', 'KOMPLAIN 1610061552', 'ahmad@gmail.com'),
+(4, 'ulin@ciki.com', 'KOMPLAIN 1610074354', 'ahmad@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -185,10 +187,11 @@ CREATE TABLE `inbox_detail` (
 
 INSERT INTO `inbox_detail` (`kd_inbox_detail`, `kd_inbox`, `userid`, `pesan`, `tgl`, `status`) VALUES
 (1, 1, 'budi@gmail.com', 'Orderan saya sudah dikirim belum ya?', '2018-01-18 21:39:11', 'R'),
-(2, 1, 'enditha@gmail.com', 'sudah', '2021-01-07 04:18:20', 'N'),
+(2, 1, 'enditha@gmail.com', 'sudah', '2021-01-07 04:18:20', 'R'),
 (7, 2, 'ahmad@gmail.com', 'sadasdas', '2021-01-09 08:36:54', 'R'),
 (9, 3, 'enditha@gmail.com', 'Pesanan dengan no faktur 1610061552 mengajukan komplain atas alasan kadaluarsa\r\n				untuk mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.', '2021-01-09 09:03:00', 'R'),
-(10, 3, 'ahmad@gmail.com', 'okee', '2021-01-09 09:12:08', 'R');
+(10, 3, 'ahmad@gmail.com', 'okee', '2021-01-09 09:12:08', 'R'),
+(11, 4, 'ulin@ciki.com', 'Pesanan dengan no faktur 1610074354 mengajukan komplain atas alasan rusak\r\n				untuk mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.', '2021-01-11 03:27:57', 'R');
 
 -- --------------------------------------------------------
 
@@ -227,7 +230,7 @@ CREATE TABLE `komplain` (
 --
 
 INSERT INTO `komplain` (`kd_komplain`, `kd_faktur`, `tgl`, `alasan`, `stts`) VALUES
-(1, 1610074354, '2021-01-08', 'rusak', 'pengajuan'),
+(1, 1610074354, '2021-01-08', 'rusak', 'proses'),
 (9, 1610061552, '2021-01-09', 'kadaluarsa', 'proses');
 
 -- --------------------------------------------------------
@@ -247,10 +250,10 @@ CREATE TABLE `kontak` (
 --
 
 INSERT INTO `kontak` (`kd_kontak`, `kontak`, `isi_kontak`) VALUES
-(2, 'SMS (Only)', '082325046290'),
-(3, 'Telepon', '082325046290'),
+(2, 'SMS (Only)', '085601216483'),
+(3, 'Telepon', '085601216483'),
 (4, 'Email', 'ciki500an@gmail.com'),
-(5, 'Whatsapp', '082325046290');
+(5, 'Whatsapp', '085601216483');
 
 -- --------------------------------------------------------
 
@@ -512,9 +515,9 @@ CREATE TABLE `rekening` (
 --
 
 INSERT INTO `rekening` (`kd_rekening`, `bank`, `no_rek`) VALUES
-(1, 'BCA', '2497-0808-15'),
-(4, 'BRI', '3744-0101-4619-533'),
-(5, 'BNI', '613492032');
+(1, 'BCA', '9999999999'),
+(4, 'BRI', '9999999999'),
+(5, 'BNI', '9999999999');
 
 -- --------------------------------------------------------
 
@@ -566,7 +569,6 @@ INSERT INTO `user` (`userid`, `password`, `tipe`, `status`, `kode`) VALUES
 ('azka@gmail.com', 'azka', 'Pelanggan', 'Y', NULL),
 ('coba@coba.com', 'coba', 'Pelanggan', 'Y', '8195841181'),
 ('dalil@gmail.com', 'dalil', 'Pelanggan', 'Y', NULL),
-('enditha@gmail.com', 'enditha', 'Admin', 'Y', NULL),
 ('ezra@gmail.com', 'ezra', 'Pelanggan', 'Y', NULL),
 ('farda@gmail.com', 'farda', 'Pelanggan', 'Y', NULL),
 ('fariq@gmail.com', 'fariq', 'Pelanggan', 'Y', NULL),
@@ -587,6 +589,7 @@ INSERT INTO `user` (`userid`, `password`, `tipe`, `status`, `kode`) VALUES
 ('syahar@gmail.com', 'syahar', 'Pelanggan', 'Y', NULL),
 ('taqi@gmail.com', 'taqi', 'Pelanggan', 'Y', NULL),
 ('tatakusuma@gmail.com', 'tatakusuma', 'Pelanggan', 'Y', '1177401452'),
+('ulin@ciki.com', 'ciki', 'Admin', 'Y', NULL),
 ('yoga@gmail.com', 'yoga', 'Pelanggan', 'Y', NULL),
 ('yusmar@gmail.com', 'yusmar', 'Pelanggan', 'Y', NULL);
 
@@ -716,7 +719,7 @@ ALTER TABLE `inbox`
 -- AUTO_INCREMENT for table `inbox_detail`
 --
 ALTER TABLE `inbox_detail`
-  MODIFY `kd_inbox_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `kd_inbox_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `kategori`

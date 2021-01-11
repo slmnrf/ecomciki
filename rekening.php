@@ -43,7 +43,7 @@ $row_rekening = $sql_rekening->fetch(PDO::FETCH_LAZY);
       <?php do{ ?>
       <address>
       <strong><?php echo $row_rekening['bank']; ?></strong><br>
-      a.n. Enditha<br>
+      a.n. ULINCIKI<br>
       <?php echo $row_rekening['no_rek']; ?><br>
       </address>
       <?php }while($row_rekening = $sql_rekening->fetch()); ?>

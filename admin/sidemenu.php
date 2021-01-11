@@ -4,7 +4,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="../assets/images/foto/avatar.jpg" class="img-circle" alt="User Image" />
+                <img src="../assets/images/foto/avatar.png" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
                 <p>Hello, <?php echo $nama_akun; ?></p>
@@ -56,7 +56,7 @@
             </li>
             <li <?php menuAktif("komplain", $page); ?>>
                 <a href="komplain">
-                    <i class="fa fa-shopping-basket fa-lg"></i> <span>komplain</span>
+                    <i class="fa fa-calendar-times-o fa-lg"></i> <span>komplain</span>
                 </a>
             </li><!-- 
             <li <?php //menuAktif("laporan", $page); ?>>
