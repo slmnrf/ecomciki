@@ -10,6 +10,8 @@ if ((isset($_POST["fterima"])) && ($_POST["fterima"] == "y")) {
 	$tgl_terima	= date("Y-m-d h:i:s");
 
     $con->exec("UPDATE faktur SET tgl_terima='$tgl_terima' WHERE kd_faktur='$kd_faktur' ");
+
+    $con->exec("UPDATE komplain SET stts='selesai' WHERE kd_faktur='$kd_faktur'");
     // pesan berhasil
     tampilPesan("Berhasil Disimpan!","Barang telah diterima!","success","transaksi");
 }

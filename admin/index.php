@@ -19,7 +19,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 
 	$judul = "KOMPLAIN ".$komplainfaktur;
 	$pesan = "Pesanan dengan no faktur ".'<a href=detail_transaksi?faktur='.$komplainfaktur.'&&komplain='.'y'.'>'.$komplainfaktur.'</a>'." mengajukan komplain atas alasan ".$alasan."
-				untuk mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.";
+				agar kami dapat mengetahui lebih detail tentang kendala yang dialami, Anda bisa melakukan chat di forum ini. Terimakasih.";
 
 	// update status pada tabel komplain
 	$con->exec("UPDATE komplain SET stts='$stts' WHERE kd_faktur='$komplainfaktur'");
@@ -225,7 +225,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 			                                <th>Tanggal</th>
 			                                <th>Alasan</th>
 			                                <th>Status</th>
-			                                <th>Aksi</th>
+			                                <th>Tindakan</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
@@ -236,7 +236,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 			                            <tr>
 			                                <td width="10%"><?php echo $rowkom['kd_komplain']; ?></td>
 			                                <td width="10%">
-			                                	<a href="detail_order?kd_faktur=<?php echo $kd_faktur; ?>&&pelanggan=<?php echo $row['userid'] ?>">
+			                                	<a href="detail_order?kd_faktur=<?php echo $kd_faktur; ?>&&pelanggan=<?php echo $rowkom['userid'] ?>">
 			                                	<?php echo $rowkom['kd_faktur']; ?>
 			                                	</a>
 			                                </td>			                                
@@ -246,7 +246,7 @@ if ((isset($_POST['btnproses']) && ($_POST['btnproses'] == "y"))) {
 											<?php if ($rowkom['stts'] == "pengajuan") { ?>
 												<td width="15%"><button type="submit" name="btnproses" value="y" class="btn btn-danger">Proses</button></td>
 											<?php }elseif ($rowkom['stts'] == "proses") { ?>
-												<td width="15%"><button type="submit" name="btnselesai" value="y" class="btn btn-success">Selesai</button></td>
+												<td width="15%">Diproses</td>
 											<?php }?>
 											<td style="display:none;"><input type="hidden" name="kfaktur" value="<?php echo $rowkom['kd_faktur'];?>"></input>
 											<input type="hidden" name="kkomplain" value="<?php echo $rowkom['kd_komplain'];?>"></input>
