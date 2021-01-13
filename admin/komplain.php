@@ -144,7 +144,6 @@ if ((isset($_POST["fhapus"])) && ($_POST["fhapus"] == "y")) {
 											<tbody>
 											<?php do{ 
 												$kd_inbox=$row['kd_faktur'];
-												echo $kd_inbox;
 												$sql_dpesan = $con->query("SELECT * FROM inbox_detail WHERE kd_inbox='$kd_inbox' ORDER BY tgl DESC ");
 												$row_dpesan = $sql_dpesan->fetch(PDO::FETCH_LAZY);
 												$trow_dpesan = $sql_dpesan->rowCount();
